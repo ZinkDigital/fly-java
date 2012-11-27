@@ -58,8 +58,8 @@ public interface MultiFly extends FlyPrime {
      * match the template and the match limit is set to 200, then only the first 
      * 200 matching objects will be returned in the collection.
      * 
-     * If on the other hand if the match limit is 200 and the space conatins only
-     * 135 matching entires then all 135 entires will be returned.
+     * If on the other hand if the match limit is 200 and the space contains only
+     * 135 matching entries then all 135 entries will be returned.
      * 
      * @param template - Template to match 
      * @param matchLimit - The upper limit of matched objects to return
@@ -79,8 +79,8 @@ public interface MultiFly extends FlyPrime {
      * match the template and the match limit is set to 200, then only the first 
      * 200 matching objects will be returned in the collection.
      * 
-     * If on the other hand if the match limit is 200 and the space conatins only
-     * 135 matching entires then all 135 entires will be returned.
+     * If on the other hand if the match limit is 200 and the space contains only
+     * 135 matching entries then all 135 entries will be returned.
      * 
      * @param template - Template to match 
      * @param matchLimit - The upper limit of matched objects to return
