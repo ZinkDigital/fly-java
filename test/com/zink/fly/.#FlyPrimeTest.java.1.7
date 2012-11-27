@@ -1,0 +1,170 @@
+package com.zink.fly;
+
+
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import com.zink.fly.stub.FlyStub;
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
+import static org.junit.Assert.*;
+
+
+
+/**
+ *
+ * @author nigel
+ */
+public class FlyPrimeTest {
+
+    public FlyPrimeTest() {
+    }
+
+    
+    FlyPrime fly;
+    
+    @Before
+    public void setUp() {   
+    }
+
+    @After
+    public void tearDown() {
+    }
+    
+    
+    @Test
+    public void makeStub() throws Exception {
+       // open the connection
+       fly = (FlyPrime) new FlyStub("localhost", 6240);
+       assertNotNull(fly);
+       assertTrue(fly instanceof FlyPrime);
+    }
+    
+
+     
+    @Test
+    public void writeTake() throws Exception {
+        // open the connection
+        fly = (FlyPrime) new FlyStub("localhost", 6240);
+       
+        TestEntry entry  = createTestEntry(200);
+        
+        // write the entry
+        fly.write(entry, 1000L);
+        
+        // set up a tempate to match the above entry and
+        TestEntry template = createTestTemplate();
+    
+        // now take the entry
+        TestEntry result = fly.take(template, 0L);
+        
+        // check the return is good
+        assertNotNull(result); 
+        assertTrue(result != entry);
+        assertTrue(result.equals(entry));
+        
+        // now try and takem it again to prove that
+        // there is nothing there
+        result = (TestEntry)fly.take(template, 0L);
+        assertTrue( result == null);   
+    }
+
+
+    @Test
+    public void writeRead() throws Exception {
+        // open the connection
+        fly = (FlyPrime) new FlyStub("localhost", 6240);
+      
+        TestEntry entry = createTestEntry(200);
+      
+        // write the entry
+        fly.write(entry, 1000L);
+        
+        TestEntry template = createTestTemplate();
+    
+        // now read the entry
+        TestEntry result = (TestEntry)fly.read(template, 0L);
+        assertNotNull(result);
+        assertTrue(result != entry);
+        assertTrue(result.equals(entry));
+
+        // to test the read left a copy do a take
+        // make sure it is the same again 
+        result = (TestEntry)fly.take(template, 0L);
+        assertNotNull(result);
+        assertTrue(result != entry);
+        assertTrue(result.equals(entry));
+   
+    }
+
+
+    @Test
+    public void snapShot() throws Exception {
+        // open the connection
+        fly = (FlyPrime) new FlyStub("localhost", 6240);
+       
+        // write 
+        TestEntry entry = createTestEntry(200);
+        fly.write(entry, 1000L);
+
+        TestEntry template = createTestTemplate();
+        
+        // snap the template and do a take to test it 
+        TestEntry snapshot = (TestEntry)fly.snapshot(template);
+        TestEntry result = (TestEntry)fly.take(snapshot, 0L);
+        assertNotNull(result);
+        assertTrue(result != entry);
+        assertTrue(result.equals(entry));
+    
+    }
+  
+    @Test
+    public void largeObject() throws Exception {
+        // open the connection
+        fly = (FlyPrime) new FlyStub("localhost", 6240);
+      
+        TestEntry entry = createTestEntry(512);
+        TestEntry template = createTestTemplate();
+        
+        for (int i = 0; i < 8; i++ ) {
+            entry.payload = entry.payload + entry.payload;
+            System.out.println("Payload size is " + entry.payload.length());
+            fly.write(entry, 1000L);
+            
+            TestEntry result = (TestEntry)fly.take(template, 0L);
+            assertNotNull(result);
+            assertTrue(result != entry);
+            assertTrue(result.equals(entry));
+        }
+    
+    }
+    
+    
+    
+    
+    private TestEntry createTestEntry(int size) {
+        // set up an entry to write to the space
+        TestEntry entry = new TestEntry();
+        entry.name = "Fab 1";
+        entry.reference = new Integer(17);
+        entry.setPayloadOfSize(size);
+        return entry;   
+    }
+    
+    
+    private TestEntry createTestTemplate() {
+        TestEntry template = new TestEntry();
+        template.name = "Fab 1";
+        template.reference = null;    // match any value in this template
+        template.payload = null;      // ditto
+        return template;
+     }
+     
+     
+     
+}
+

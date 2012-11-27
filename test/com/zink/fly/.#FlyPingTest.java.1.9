@@ -1,0 +1,89 @@
+package com.zink.fly;
+
+
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import com.zink.fly.kit.FlyPinger;
+import com.zink.fly.stub.MethodCodec;
+import com.zink.fly.stub.ObjectCodec;
+import com.zink.fly.stub.Remoter;
+import com.zink.fly.stub.StringCodec;
+import java.io.DataInputStream;
+
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
+import static org.junit.Assert.*;
+
+
+
+/**
+ *
+ * @author nigel
+ */
+public class FlyPingTest {
+
+    public FlyPingTest() {
+    }
+    
+    @Before
+    public void setUp() {   
+    }
+
+    @After
+    public void tearDown() {
+    }
+    
+    
+   
+     
+    @Test
+    public void pingWithRemoter() throws Exception {
+        // Use the remoter to send the ping reques 
+        Remoter remoter = new Remoter("localhost", 6240);
+        StringCodec stringCodec = new StringCodec();
+        
+        ByteBuffer bb = ByteBuffer.allocate(4);
+          
+        // just the hedaer is a valid ping message 
+        bb.putInt(MethodCodec.FLY_HEADER);
+        
+        long reply = remoter.sendOperation(bb.array());
+        
+        DataInputStream dis = remoter.getDataInputStream();
+
+        System.out.println("Number of tags [" + reply + "]");
+        
+        assertTrue( reply > 0);
+        // get the tags from the reply
+        for (int i = 0; i < reply; i++) {
+            String tag = stringCodec.readString(dis);
+            if (i == 0) {
+                assertEquals("FlySpace",tag );
+            }
+            System.out.println("Tag " + (i+1) + " [" + tag + "]");
+        }  
+
+    }
+
+
+    @Test
+    public void pingWithPinger() throws Exception {
+           
+        InetAddress addr = InetAddress.getByName("localhost");   
+            
+        FlyPinger pgr = new FlyPinger();
+        String [] tags = pgr.ping(addr);
+        assertTrue( tags != null);    
+        assertEquals("FlySpace",tags[0] );    
+    }
+    
+}
+
+

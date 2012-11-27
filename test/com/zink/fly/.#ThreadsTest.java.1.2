@@ -1,0 +1,55 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.zink.fly;
+
+import com.zink.fly.example.WriteRead;
+import com.zink.fly.example.WriteTake;
+import org.junit.Test;
+
+/**
+ *
+ * @author nigel
+ */
+public class ThreadsTest {
+    
+   // @Test
+    public  void testThreads() throws InterruptedException {
+        
+        Thread thrd1 = new Reader();
+        Thread thrd2 = new Taker();
+
+        thrd1.start();
+        Thread.sleep(10);
+        thrd2.start();
+        
+        
+        while ( thrd1.isAlive() && thrd2.isAlive() ) {
+            Thread.sleep(10);
+        }
+        
+    }
+    
+    
+    
+   public class Taker extends Thread {
+       
+       
+       @Override
+       public void run() {
+           WriteTake.main(new String[] {} );  
+       }
+   }
+
+   
+   public class Reader extends Thread {
+       @Override
+       public void run() {
+           WriteRead.main(new String[] {} );  
+       }
+   }
+
+   
+}
