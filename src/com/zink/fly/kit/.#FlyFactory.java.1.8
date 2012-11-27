@@ -1,0 +1,51 @@
+/*
+ */
+
+package com.zink.fly.kit;
+
+import com.zink.fly.*;
+import com.zink.fly.stub.BufferedSerializingFieldCodec;
+import com.zink.fly.stub.FlyStub;
+import com.zink.fly.stub.SerializingFieldCodec;
+import java.net.ConnectException;
+
+
+/**
+ * @author nigel
+ */
+public class FlyFactory  {
+    
+
+    private static final String DEFAULT_HOST = "localhost";
+    
+    /*
+     * Try to create a Fly stub connected to a Fly server running on 
+     * this machine
+     */
+    public static Fly makeFly() {
+        return makeFly(DEFAULT_HOST);
+    }
+
+    
+    public static Fly makeFly(FieldCodec fieldCodec) {
+        return makeFly(DEFAULT_HOST, fieldCodec);
+    }
+   
+    
+    public static Fly makeFly(String host)  {
+        return makeFly(host, new SerializingFieldCodec());
+    }
+    
+    
+    public static Fly makeFly(String host, FieldCodec fieldCodec)  {
+        Fly stub = null;
+        try {
+            stub =  new FlyStub(host, fieldCodec);
+        } catch (ConnectException ex) {
+            throw new FlyAccessException("No Fly Server running on ["+host+"]",ex);
+        }
+        return stub;   
+    }
+
+    
+}

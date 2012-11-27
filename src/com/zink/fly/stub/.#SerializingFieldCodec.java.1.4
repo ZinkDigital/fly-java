@@ -1,0 +1,58 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.zink.fly.stub;
+
+import com.zink.fly.FieldCodec;
+import com.zink.fly.FlyAccessException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+/**
+ *
+ * @author nigel
+ */
+public class SerializingFieldCodec implements FieldCodec {
+    
+    // buffer for coding java objects into byte arrays
+    private ByteArrayOutputStream bos = 
+                new ByteArrayOutputStream(FieldCodec.DEFAULT_BUFFER_SIZE);
+   
+       
+    public byte [] writeField(Object field) {
+        ObjectOutputStream oos = null;
+        try {
+            bos.reset();
+            oos = new ObjectOutputStream(bos);
+            oos.writeObject(field);
+            oos.flush();
+        } catch (IOException ex) {
+            throw new FlyAccessException(ex);
+        }
+        return bos.toByteArray();
+    }
+    
+    public Object readField(byte [] fieldBytes) {
+        Object object = null;
+        ByteArrayInputStream bis = new ByteArrayInputStream(fieldBytes);
+        ObjectInputStream ois;
+        try {
+            ois = new ObjectInputStream(bis);
+            object = ois.readObject();
+        } catch (Exception ex) {
+            throw new FlyAccessException(ex);
+        }
+        return object;
+        
+    }
+    
+    
+    
+    
+    
+}

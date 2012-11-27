@@ -1,0 +1,122 @@
+/*
+ * 
+ */
+
+package com.zink.fly.kit;
+
+
+import com.zink.fly.stub.StringCodec;
+import java.io.DataInputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.concurrent.TimeoutException;
+
+
+/**
+ *
+ * @author nigel
+ */
+public class FlyPinger {
+   
+    private static final byte [] pingOp = 
+            new byte[] { (byte)0xfa,(byte)0xb1,(byte)0x0,(byte)0x0 };
+    
+    private static final long DEFAULT_TIMEOUT = 50; // ms
+    
+    private StringCodec stringCodec = new StringCodec();
+    
+    private final long socketTimeout;
+    
+    // set the connection timeout to the default
+    public FlyPinger() {
+        this(DEFAULT_TIMEOUT);
+    }   
+    
+    /**
+     * Construct a FlyPinger with a bespoke timeout
+     * @param pingTimeOut in ms
+     */
+    public FlyPinger(long pingTimeOut) {
+        socketTimeout = pingTimeOut;
+    }
+    
+    
+   
+    /**
+     * Send a ping message to a Fly Space running on the given InetAddress and 
+     * port.
+     * @param addr
+     * @return String [] of tags or null array for failed ping.
+     */   
+    public String [] ping(InetAddress addr, int port) {
+        String [] tags = null;
+        Socket sock = null;
+        try {
+                
+            sock = new Socket();
+            sock.setKeepAlive(true);
+            sock.bind(null);
+            sock.connect(new InetSocketAddress(addr, port),(int)socketTimeout);
+
+            DataInputStream dis = new DataInputStream(sock.getInputStream()); 
+            sock.getOutputStream().write(pingOp);
+            
+            // wait for the reply for the specified time.
+            long start = System.currentTimeMillis();
+            while (dis.available() == 0 && (System.currentTimeMillis() - start) < socketTimeout) {
+                Thread.sleep(1);
+            }
+            
+            if (dis.available() == 0 ) {
+                throw new TimeoutException("No reply from fly server");
+            }
+            
+            
+            long tagCount = dis.readLong();
+            tags = new String[(int)tagCount];
+            for (int i = 0; i < tagCount; i++) {
+                tags[i] = stringCodec.readString(dis);
+            }
+            sock.setKeepAlive(Boolean.FALSE);
+            sock.shutdownInput();
+            sock.shutdownOutput();
+            sock.close();
+        } catch (Exception exp ) {
+
+            System.err.println(new Date() + " : FlyPinger : " + exp.getMessage() + " : " +addr.toString());
+
+            // ignored
+        } finally {
+            if (sock != null) {
+                try {
+                    sock.close();
+                } catch(Exception ex) {
+                    // ignored
+                }
+            }
+
+        }
+        return tags;
+    }
+    
+    
+    /**
+     * Send a ping message to a Fly Space running on the given Address and 
+     * port.
+     * @param host
+     * @return String [] of tags or null array for failed ping.
+     */   
+    public String [] ping(String host, int port) throws UnknownHostException {
+        InetAddress addr = InetAddress.getByName(host);
+        return ping(addr, port);
+    }
+
+    public long getTimeout() {
+        return socketTimeout;
+    }
+  
+    
+}

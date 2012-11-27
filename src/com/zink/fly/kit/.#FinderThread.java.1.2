@@ -1,0 +1,77 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.zink.fly.kit;
+
+import java.io.IOException;
+import java.net.InetAddress;
+
+/**
+ * The finder thread deals with the job of finding if an instance of 
+ * a FlySpace is running on the host machine.
+ * @author nigel
+ */
+public class FinderThread extends Thread {
+     
+   private static final int DEFAULT_PORT = 6240; 
+        
+   private InetAddress addr;
+   private String[] tags;
+   private FlyPinger pinger;;
+   private FoundEventHandler evtHandler;
+ 
+    
+   public FinderThread ( InetAddress addr, String [] tags, long timeout, FoundEventHandler evtHandler ) {
+       if ( addr == null || timeout == 0 || evtHandler == null ) {
+           throw new IllegalArgumentException("Null arguement not permitted");
+       }
+       this.addr = addr;
+       this.tags = tags;
+       this.pinger = new FlyPinger(timeout);
+       this.evtHandler = evtHandler;
+   }
+    
+   
+   public void run() { 
+        try {
+            String[] flyTags = pinger.ping(addr, DEFAULT_PORT);
+            if (flyTags != null) {
+                if (tagsMatch(flyTags, tags)) {
+                    evtHandler.flyFound(addr);
+                }
+            }
+        } catch (Exception ex) {
+            // could not make contact to ignore
+        }
+   }       
+     
+   
+   private boolean tagsMatch(String[] flyTags, String[] tags) {
+        // if the tags from the space are null it doenst exist
+        if (flyTags == null) return Boolean.FALSE;
+        // if the supplied tags are null then it has to match 
+        if (tags == null) return Boolean.TRUE;
+        // run over the supplied tags check the space matches all of them.
+        for (String tag : tags) {
+            if (!containsTag(flyTags, tag)) return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+    
+    
+    
+    private boolean containsTag(String[] flyTags, String tag) {
+        for (String flyTag : flyTags) {
+            if (tag.equals(flyTag)) return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+   
+            
+   
+   
+   
+   
+}

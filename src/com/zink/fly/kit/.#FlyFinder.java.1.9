@@ -1,0 +1,208 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.zink.fly.kit;
+
+import com.zink.fly.FieldCodec;
+import com.zink.fly.Fly;
+import com.zink.fly.stub.FlyStub;
+import com.zink.fly.stub.SerializingFieldCodec;
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.util.Timer;
+
+
+/**
+ *
+ * @author nigel
+ */
+public class FlyFinder implements FoundEventHandler {
+    
+   
+    private static final int DEFAULT_PORT = 6240;
+    private static final int DEFAULT_PING_TIMEOUT = 50;
+    
+    private final FlyPinger pinger;   
+    private final int pingTimeOut;
+    private final FieldCodec fieldCodec;
+    
+     
+    private InetAddress targetAddr = null; // the tagret of the call back process
+    /** 
+     * Create a FlyFinder that will use the default ping timeout 
+     * for network scans
+     */
+    public FlyFinder() {
+        this(DEFAULT_PING_TIMEOUT);
+    }
+    
+    
+    /**
+     * The DEFAULT_PING_TIMEOUT is set to 5ms.
+     * On very slow networks a larger ping time may be required in order
+     * to find availble fly instances.
+     * On very fast networks faster ping would reduce the total amount of time
+     * to scan the local subnet 
+     * 
+     */
+    public FlyFinder(int pingTimeOut) {
+        this(new SerializingFieldCodec(), pingTimeOut);
+    }
+    
+    
+    /**
+     * Use the supplied field codec to use non java serialized entries
+     * 
+     * @param fieldCodec
+     */
+    public FlyFinder(FieldCodec fieldCodec) {
+        this(fieldCodec,DEFAULT_PING_TIMEOUT);
+    }
+    
+    
+    /**
+     * Allows the client to set both the fieldCodec and the ping timeout
+     * @param fieldCodec
+     * @param pingTimeOut
+     */
+    public FlyFinder(FieldCodec fieldCodec, int pingTimeOut) {  
+        this.pingTimeOut = pingTimeOut;
+        this.fieldCodec = fieldCodec; 
+        this.pinger = new FlyPinger(pingTimeOut);
+
+    } 
+    
+    
+    /**
+     * Find any Fly instance on the local sub net and return a refernce to it
+     * 
+     * This method prefers the FlySpace running locally to all others.
+     * It first looks on the local host and then runs through the IP addresses
+     * on the local sub net until it finds the first matching instance of a
+     * fly server running.
+     * @return a reference to a Fly interface - null if none found
+     */
+    public Fly find() {
+        return find((String []) null);
+    }      
+       
+    
+    /**
+     * Find a Fly instance on the local sub net that mathces the tag supplied 
+     * in the array of tags supplied. 
+     * 
+     * This method prefers the space running locally to all others.
+     * It first looks on the local host and then runs through the IP addresses
+     * on the local sub net until it finds the first matching instance of a
+     * fly server running.
+     * 
+     * @param tags - the tags used to match with the FlySpace tags
+     * @param pingTimeOut - Wait for another machine to respond (ms)
+     * @return a reference to a Fly interface - null if none found
+     */            
+    public Fly find(String tag) {
+        return find(new String[] { tag });
+    }
+    
+    
+    /**
+     * Find a Fly instance on the local sub net that mathces the tags supplied 
+     * in the array of tags supplied. All of the tags provided as a parameter 
+     * must match those provided by the Fly instance. 
+     * 
+     * This method prefers the space running locally to all others.
+     * It first looks on the local host and then runs through the IP addresses
+     * on the local sub net until it finds the first matching instance of a
+     * fly server running.
+     * 
+     * @param tags - the tags used to match with the FlySpace tags
+     * @param pingTimeOut - Wait for another machine to respond (ms)
+     * @return a reference to a Fly interface - null if none found
+     */         
+    public Fly find(String [] tags) {
+        
+        try {
+            InetAddress localAddr = InetAddress.getLocalHost();
+            byte[] scanAddressBytes = localAddr.getAddress();
+            
+            // First cehck the local address
+            Thread finder = new FinderThread(localAddr,tags, pingTimeOut, this); 
+            finder.start();
+            Thread.yield();
+        
+            // Remember not to scan locally again.
+            int localDigit = scanAddressBytes[3];
+  
+            // start from 1 - 0 is an invalid address
+            for (int i = 1; i < 256 && targetAddr == null; i++) {
+                if ( i != localDigit) {
+                    // set the last digit fo the scan address
+                    scanAddressBytes[3] = (byte)i;
+                    InetAddress scanAddr = InetAddress.getByAddress(scanAddressBytes);
+                    FinderThread ft = new FinderThread(scanAddr, tags, pingTimeOut, this);
+                    ft.start();
+                }
+            }
+            
+        } catch (Exception ex) {
+            // ignored - something went wrong on the local host
+        }
+        
+        // now wiat until we time out or we find an instance.
+        long timeOut = System.currentTimeMillis() +  pingTimeOut;
+        while ( targetAddr ==  null && timeOut < System.currentTimeMillis() ) {
+            Thread.yield();
+        }
+            
+        try {
+            if (targetAddr != null) {
+                return new FlyStub(targetAddr.getHostAddress(), DEFAULT_PORT, fieldCodec);
+            }
+        } catch (ConnectException ex) {
+            /// failed maybe the server went away after we found the instance
+            // still no mind, null means not found.
+        }
+        return null;
+    }
+
+    
+    
+    
+    /**
+     * one of the threads found an instance so set it and return
+     * which means the latch in the above method will trigger.
+     */
+    public void flyFound(InetAddress addr) {
+            targetAddr = addr; 
+    }
+    
+    
+    
+    
+    private boolean tagsMatch(String[] flyTags, String[] tags) {
+        // if the tags from the space are null it doenst exist
+        if (flyTags == null) return Boolean.FALSE;
+        // if the supplied tags are null then it has to match 
+        if (tags == null) return Boolean.TRUE;
+        // run over the supplied tags check the space matches all of them.
+        for (String tag : tags) {
+            if (!containsTag(flyTags, tag)) return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+    
+    
+    
+    private boolean containsTag(String[] flyTags, String tag) {
+        for (String flyTag : flyTags) {
+            if (tag.equals(flyTag)) return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+      
+ 
+
+}

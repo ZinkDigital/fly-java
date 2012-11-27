@@ -1,0 +1,47 @@
+/*
+ */
+
+package com.zink.fly.stub;
+
+import com.zink.fly.FlyAccessException;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
+import sun.reflect.ReflectionFactory;
+
+/**
+ *
+ * @author nigel
+ */
+public class EmptyObjectFactory {
+
+    // make an object of the correct type without calling the
+    // object's constructor. Becuase the object may not have a no-args
+    // ctor (but may have others we simply construct in the
+    // style of a serialisable class.   
+    private  ReflectionFactory factory = ReflectionFactory.getReflectionFactory();
+    private  Constructor objectCtor;
+
+ 
+    private Map<Class, Constructor> ctors = new HashMap<Class, Constructor>();
+
+
+    public EmptyObjectFactory()  {
+        try {
+            objectCtor = Object.class.getDeclaredConstructor();
+        } catch (Throwable ex) {
+           throw new FlyAccessException(ex);
+        }
+    }
+ 
+    Object makeEmptyObject(Class type) throws Exception {
+            //Constructor typedCtr = null;
+            Constructor typedCtr = ctors.get(type);
+            if (typedCtr == null) {
+                typedCtr = factory.newConstructorForSerialization(type, objectCtor);
+                ctors.put(type,typedCtr);
+            }
+            return typedCtr.newInstance();
+    }
+
+}

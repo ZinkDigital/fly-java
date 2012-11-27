@@ -1,0 +1,40 @@
+/*
+ * This Interface Copyright (C)2006 Zink Digital Ltd 
+ */
+
+package com.zink.fly;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+
+/**
+ *
+ * @author nigel
+ */
+public interface FieldCodec {
+    
+    /**
+     * Encode the given object into any byte array required
+     * @param field
+     * @return the encoded field as a byte array
+     */
+    public byte [] writeField(Object field);
+
+    /**
+     * Decode the byte array to create the object field
+     * @param fieldBytes
+     * @return the object created from the byte array
+     */
+    public Object readField(byte [] fieldBytes);
+
+
+    /**
+     * Read the Object directly from the intput stream.
+     * This can stop buffer thrashing if we know the format etc.
+     * @param inStream
+     * @return
+     */
+    public Object readField(InputStream inStream);
+    
+
+}
