@@ -204,7 +204,7 @@ public class MethodCodec {
     
     
     
-    synchronized Collection readMany(Object template, long matchLimit, long ignore) {
+    synchronized Collection readMany(Object template, long matchLimit) {
         Collection entries = new ArrayList((int)matchLimit);
          try {
             // reset the output stream
@@ -217,7 +217,7 @@ public class MethodCodec {
             dos.writeInt(typeChannel);
             typeChain.writeObject(dos, template);
             dos.writeLong(matchLimit);
-            dos.writeLong(ignore);
+            
             
             // send the op and get the reply
             long entryCount = remoter.sendOperation(bos.toByteArray());

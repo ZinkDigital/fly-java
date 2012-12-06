@@ -74,7 +74,7 @@ public class FlyPingTest {
         for (int i = 0; i < reply; i++) {
             String tag = stringCodec.readString(dis);
             if (i == 0) {
-                assertEquals("FlySpace",tag );
+                assertEquals("FlySpace2",tag );
             }
             System.out.println("Tag " + (i+1) + " [" + tag + "]");
         }  
@@ -90,7 +90,7 @@ public class FlyPingTest {
         FlyPinger pgr = new FlyPinger();
         String [] tags = pgr.ping(addr);
         assertTrue( tags != null);    
-        assertEquals("FlySpace",tags[0] );    
+        assertEquals("FlySpace2",tags[0] );    
     }
     
 }

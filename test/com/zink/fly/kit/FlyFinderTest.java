@@ -20,10 +20,10 @@ package com.zink.fly.kit;
 import com.zink.fly.Fly;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -75,7 +75,7 @@ public class FlyFinderTest {
         FlyFinder instance = new FlyFinder();
         
         // test for a fail
-        Fly fly = instance.find(new String [] { "FlySpace" } );
+        Fly fly = instance.find(new String [] { "FlySpace2" } );
         
         assertNotNull("Could not match tag on local Space", fly);
     }
@@ -94,10 +94,6 @@ public class FlyFinderTest {
         
         assertNull("Matched bad tags", fly);
     }
-    
-    
-    
-  
     
 
 }

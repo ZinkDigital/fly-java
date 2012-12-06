@@ -20,8 +20,6 @@ package com.zink.fly.stub;
 
 import com.zink.fly.FieldCodec;
 import com.zink.fly.Fly;
-
-
 import com.zink.fly.Notifiable;
 import com.zink.fly.NotifyHandler;
 import java.net.ConnectException;
@@ -133,8 +131,7 @@ public class FlyStub implements Fly  {
 
     
     public Collection readMany(Object template, long matchLimit) {
-        // zero means do ingnore and initial matches
-        return codec.readMany(template, matchLimit, 0L);
+        return codec.readMany(template, matchLimit);
     }
 
  

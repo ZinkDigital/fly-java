@@ -26,7 +26,6 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -98,7 +97,7 @@ public class Remoter {
     }
     
     
-    // replies wih the first int on the stream.
+    // replies with the first long on the stream.
     public long sendOperation(byte [] method) {
         long firstLong = 0;
         try {
