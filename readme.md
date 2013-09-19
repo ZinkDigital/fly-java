@@ -52,7 +52,7 @@ In either case, if this successful you will see something like this -
 Fly Server started on port 4396
 ```
 
-and the some output from the example code which writes and takes 1000 example 
+and then some output from the example code which writes and takes 1000 example 
 objects to and from the space server. To write more or less objects, vary the 
 final parameter, or try running a number of example clients in parallel.
 
