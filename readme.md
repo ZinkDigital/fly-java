@@ -17,6 +17,11 @@ into a command prompt or shell. If this fails you will need to download a
 recent version of Java SE (1.5 or above) from www.java.com and install this 
 onto your machine.
 
+
+## The following refers to using the Release Version of this Project
+## which comming soon.
+
+
 In windows double click the startFly.bat file from the windows explorer and
 then double click the runExample.bat file. Alternativley type ... 
 
