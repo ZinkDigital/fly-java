@@ -13,7 +13,7 @@ and running on your machine. Type -
 > java -version
 ```
 
-- into a command prompt or shell. If this fails you will need to download a
+into a command prompt or shell. If this fails you will need to download a
 recent version of Java SE (1.5 or above) from www.java.com and install this 
 onto your machine.
 
