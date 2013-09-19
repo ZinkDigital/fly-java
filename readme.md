@@ -47,7 +47,7 @@ In either case, if this successful you will see something like this -
     <----    
   -------->  
     <----       Fly Server (c) MMVI Zink Digital Ltd. 
-      >       Ver 1.0 : LBI 1.0 : Non Commercial License.
+      >       Ver 2.0 : LBI 2.0 : Non Commercial License.
 
 Fly Server started on port 4396
 ```
