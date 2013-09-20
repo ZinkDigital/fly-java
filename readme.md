@@ -43,7 +43,7 @@ and start the server
 > .\startFly.bat
 ```
 
-Preferably in a new command prompt run the example code.
+Preferably in a new command prompt, run the example code.
 
 ```
 > .\runExample.bat 
@@ -58,20 +58,19 @@ On unix systems the startFly.sh script is set up to run the version of
 fly for your host platform. 
 
 ```
-
 % sh startFly.sh
-% sh runExample.sh
 ```
+
 See the comments in the script if encounter problems or you want to
 run the fly server directly from the bin directory.
 
-Preferably in a new shell run the example code.
+Preferably in a new shell, run the example code.
 
 ```
 % sh runExample.sh
 ```
 
-### 
+### Expected Results
 
 In either case, if this successful you will see something like this 
 
