@@ -11,7 +11,7 @@ lightweight object based messaging between computers running on a network.
 
 The Fly distribution contains binaries for the Fly Server and the prebuilt jar built for Java clients
 of the space. If you need these then you need to download the release from 
-github by pressing the release tab on the fly-java project page on git hub.
+github by pressing the release tab on the github fly-java project page.
 
 Download the latest release of the package in order to get the binaries and prebuilt library,
 and unzip the download.
