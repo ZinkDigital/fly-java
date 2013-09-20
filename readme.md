@@ -6,6 +6,18 @@ Welcome to Fly for Java!
 **Fly** is an Object Space server that is specifically written to provide 
 lightweight object based messaging between computers running on a network. 
 
+
+## Getting Started 
+
+The Fly distribution contains binaries for the Fly Server and the jar built for including in
+any clients that use the space. If you need these then you need to download the release from 
+github by pressing the release tab on the fly-java project page on git hub.
+
+Download the latest release of the package in order to get the binaries and prebuilt library,
+and unzip the download.
+
+### Check Java Install and Version
+
 Before you start you need to make sure that have a version of Java installed 
 and running on your machine. Type -
 
@@ -18,48 +30,70 @@ recent version of Java SE (1.5 or above) from www.java.com and install this
 onto your machine.
 
 
-## The following refers to using the Release Version of this Project which is comming soon.
 
+### Starting the Server and Example in Windows
 
-In windows double click the startFly.bat file from the windows explorer and
-then double click the runExample.bat file. Alternativley type ... 
+Double click the startFly.bat file from the windows explorer and
+then double click the runExample.bat file. 
+
+Alternativley in a windows command prompt 'cd' to the root of the fly directory 
+and start the server
 
 ```
-> cd fly
 > .\startFly.bat
+```
+
+Preferably in a new command prompt run the example code.
+
+```
 > .\runExample.bat 
 ```
 
-in a windows command prompt. 
+
+### Starting the Server and Example on Linux, MacOS and Solaris
+
+Start a shell and 'cd' into the root of the fly directory 
 
 On unix systems the startFly.sh script is set up to run the version of
-fly for the host platform. See the comments in the script if you want to
-run the fly server directly.
+fly for your host platform. 
 
 ```
-% cd fly
+
 % sh startFly.sh
 % sh runExample.sh
 ```
+See the comments in the script if encounter problems or you want to
+run the fly server directly from the bin directory.
 
-In either case, if this successful you will see something like this -
+Preferably in a new shell run the example code.
 
 ```
+% sh runExample.sh
+```
+
+### 
+
+In either case, if this successful you will see something like this 
+
+```
+
       >      
     <----    
   -------->  
-    <----       Fly Server (c) MMVI Zink Digital Ltd. 
+    <----       Fly Server (c) 2013 Zink Digital Ltd. 
       >       Ver 2.0 : LBI 2.0 : Non Commercial License.
 
 Fly Server started on port 4396
+
 ```
 
 and then some output from the example code which writes and takes 1000 example 
 objects to and from the space server. To write more or less objects, vary the 
-final parameter, or try running a number of example clients in parallel.
+final parameter in the runExample scritp, or try running a number of example 
+clients in parallel.
 
 If you want to see the java source for the WriteTake example look in the src 
 directory. There are many examples in here of how to use the server via the 
 java bindings.
 
-Enjoy using Fly! 
+Now you are flying.
