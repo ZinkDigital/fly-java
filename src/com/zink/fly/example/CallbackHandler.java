@@ -20,12 +20,11 @@ package com.zink.fly.example;
 import com.zink.fly.NotifyHandler;
 
 /**
- *
  * @author nigel
  */
 public class CallbackHandler implements NotifyHandler {
 
-    // This method is called on a spereate handler thread 
+    // This method is called on a separate handler thread 
     public void templateMatched() {
         System.out.println("Template Matched!");
     }

@@ -18,7 +18,6 @@
 package com.zink.fly.kit;
 
 /**
- *
  * @author nigel
  */
 public interface RequestHandler {

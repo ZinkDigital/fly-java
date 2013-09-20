@@ -18,7 +18,6 @@
 package com.zink.fly.example;
 
 /**
- *
  * @author nigel
  */
 public class Ball {

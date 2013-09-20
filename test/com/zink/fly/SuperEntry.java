@@ -17,7 +17,6 @@
 package com.zink.fly;
 
 /**
- *
  * @author nigel
  */
 public class SuperEntry extends TestEntry {

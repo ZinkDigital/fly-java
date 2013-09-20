@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 /**
- *
  * @author nigel
  */
 public class FieldFilter {

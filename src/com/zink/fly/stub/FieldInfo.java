@@ -18,7 +18,7 @@ package com.zink.fly.stub;
 
 // FieldInfo contains all of the information about the field that is within an entry
 // So the EntryLayout simply becomes the holder of all of the fields meta info 
-// which currnetly is simply the type and the name
+// which currently is simply the type and the name
 //
 
 public class FieldInfo {

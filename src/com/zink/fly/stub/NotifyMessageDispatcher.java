@@ -21,6 +21,7 @@ import com.zink.fly.FlyAccessException;
 import com.zink.fly.Notifiable;
 import com.zink.fly.NotifyHandler;
 import com.zink.fly.NotifyHandlerReturningEntry;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,10 +38,8 @@ class NotifyMessageDispatcher {
     static public final long NOTIFY_SIMPLE = -1L;
     static public final long NOTIFY_WITH_OBJECT = -2L;
 
-
     // Notify support with block message queue and 'token to handler' map   
     private Map<Long, ClientNotifyContext> notifyContextMap = new HashMap<Long, ClientNotifyContext>();
-
 
     // Remove the blocking queue and set up the an Executor
     ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -64,7 +63,24 @@ class NotifyMessageDispatcher {
     void decodeAndQueue( long notifyMode, DataInputStream dis) throws IOException {
 
         long notifyToken = dis.readLong();
+        
+        // this can null ptr becuase the notify can happen while the register handler 
+        // has not registered the token in the contextMap
+        // needs to be refactored becuase this is just a patch
         ClientNotifyContext cnc = notifyContextMap.get(notifyToken);
+        
+        if (cnc == null) {
+        	// give the other thread a chance to register the notify handler
+        	try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				throw new FlyAccessException("Notify handler thread Interrupted");
+			}
+        	// try again
+        	cnc = notifyContextMap.get(notifyToken);
+        }
+       
+        // if the above still fails this will null ptr 
         Notifiable handler = cnc.getHandler();
 
 

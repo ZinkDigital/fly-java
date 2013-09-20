@@ -18,7 +18,7 @@
 package com.zink.fly;
 
 /**
- * Like it is 
+ * Like it is !
  * @author nigel
  */
 
