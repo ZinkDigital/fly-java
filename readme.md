@@ -88,7 +88,7 @@ Fly Server started on port 4396
 
 and then some output from the example code which writes and takes 1000 example 
 objects to and from the space server. To write more or less objects, vary the 
-final parameter in the runExample scritp, or try running a number of example 
+final parameter in the runExample script, or try running a number of example 
 clients in parallel.
 
 If you want to see the java source for the WriteTake example look in the src 
