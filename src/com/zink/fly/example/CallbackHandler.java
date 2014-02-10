@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2012 Zink Digital Ltd
+ * Copyright (c) 2006-2014 Zink Digital Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

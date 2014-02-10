@@ -105,7 +105,7 @@ public class MultiOps {
         for (FlyEntry entry : entries) {
             space.read(template,0);
         }
-        // take th obejcts
+        // take the obejcts
         for (FlyEntry entry : entries) {
             space.take(template, 0);
         }
