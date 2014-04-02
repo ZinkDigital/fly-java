@@ -84,18 +84,25 @@ public class FlyFinder  {
             if (!reps.isEmpty()) {
                 FlyServerRep rep = (FlyServerRep)reps.toArray()[0];
                 fly = new FlyStub(rep.getFlyAddr(), fieldCodec);
-            }    
+            }
         } catch (Exception ex) {
            throw new FlyAccessException(ex);
         } finally {
            cache.terminate();
         }
-        
-        return fly;   
-    }      
-       
-    
-    /**
+
+        postCheck(fly);
+
+        return fly;
+    }
+
+    private void postCheck(Fly fly) {
+        if (fly == null) {
+            throw new FlyAccessException("Cannot find Fly");
+        }
+    }
+
+	/**
      * Find a Fly instance on the local sub net that mathces the tag supplied 
      * in the array of tags supplied. 
      * 
@@ -139,6 +146,9 @@ public class FlyFinder  {
         } finally {
             cache.terminate();
         }
+
+        postCheck(fly);
+
         return fly;
     }
 }
