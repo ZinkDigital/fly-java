@@ -19,11 +19,11 @@ package com.zink.fly.stub;
 
 import com.zink.fly.FlyAccessException;
 import com.zink.fly.Notifiable;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
@@ -54,22 +54,22 @@ public class Remoter {
     private NotifyMessageDispatcher notifyDispatcher;
 
     
-    public Remoter(String hostName, int port) throws ConnectException {
+    public Remoter(String hostName, int port) {
         try {
             initStreams(new Socket(hostName, port));
             new MessageListener().start();
         } catch (Exception exp) {
-            throw new ConnectException("Failed connection to Fly on "+ hostName + ":" + port);
+            throw new FlyAccessException("Failed connection to Fly on "+ hostName + ":" + port, exp);
         }
     }
     
   
-    public Remoter(InetAddress hostAddr, int port) throws ConnectException {
+    public Remoter(InetAddress hostAddr, int port) {
         try {
             initStreams(new Socket(hostAddr, port));
             new MessageListener().start();
         } catch (Exception exp) {
-            throw new ConnectException("Failed connection to Fly on "+ hostAddr.getHostName() + ":" + port);
+            throw new FlyAccessException("Failed connection to Fly on "+ hostAddr.getHostName() + ":" + port, exp);
         }
     }
     
