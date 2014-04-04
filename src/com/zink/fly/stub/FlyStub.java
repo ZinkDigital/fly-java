@@ -22,7 +22,7 @@ import com.zink.fly.FieldCodec;
 import com.zink.fly.Fly;
 import com.zink.fly.Notifiable;
 import com.zink.fly.NotifyHandler;
-import java.net.ConnectException;
+
 import java.net.InetAddress;
 import java.util.Collection;
 
@@ -39,14 +39,14 @@ public class FlyStub implements Fly  {
 
 
     
-    public FlyStub(String hostname, FieldCodec fieldCodec) throws ConnectException
+    public FlyStub(String hostname, FieldCodec fieldCodec)
         {
         Remoter remoter = new Remoter(hostname,FLY_PORT);
         codec = new MethodCodec(remoter, fieldCodec);
         }
 
     
-    public FlyStub(InetAddress addr, FieldCodec fieldCodec) throws ConnectException
+    public FlyStub(InetAddress addr, FieldCodec fieldCodec)
         {
         Remoter remoter = new Remoter(addr,FLY_PORT);
         codec = new MethodCodec(remoter, fieldCodec);

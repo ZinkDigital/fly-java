@@ -17,10 +17,11 @@
 
 package com.zink.fly.kit;
 
-import com.zink.fly.*;
+import com.zink.fly.FieldCodec;
+import com.zink.fly.Fly;
+import com.zink.fly.FlyAccessException;
 import com.zink.fly.stub.FlyStub;
 import com.zink.fly.stub.SerializingFieldCodec;
-import java.net.ConnectException;
 
 
 /**
@@ -54,7 +55,7 @@ public class FlyFactory  {
         Fly stub = null;
         try {
             stub =  new FlyStub(host, fieldCodec);
-        } catch (ConnectException ex) {
+        } catch (Exception ex) {
             throw new FlyAccessException("No Fly Server running on ["+host+"]",ex);
         }
         return stub;   
