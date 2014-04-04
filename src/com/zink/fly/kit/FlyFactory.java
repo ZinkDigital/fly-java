@@ -56,7 +56,7 @@ public class FlyFactory  {
         try {
             stub =  new FlyStub(host, fieldCodec);
         } catch (Exception ex) {
-            throw new FlyAccessException("No Fly Server running on ["+host+"]",ex);
+            throw new FlyAccessException("Cant locate Fly Server running on ["+host+"]",ex);
         }
         return stub;   
     }

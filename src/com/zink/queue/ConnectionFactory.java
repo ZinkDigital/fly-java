@@ -1,6 +1,7 @@
 package com.zink.queue;
 
-import com.zink.fly.kit.FlyFinder;
+import com.zink.fly.kit.FlyFactory;
+
 
 /**
 * The start point for gaining a connection to a Fly based message queue.
@@ -12,13 +13,11 @@ import com.zink.fly.kit.FlyFinder;
 public class ConnectionFactory {
 	
     public static Connection connect() {
-         FlyFinder finder = new FlyFinder();
-         return new Connection(finder.find());      
+         return new Connection( FlyFactory.makeFly() );      
     }
 
-    public static Connection connect(String host)  {
-        FlyFinder finder = new FlyFinder();
-        return new Connection(finder.find(host));              
+    public static Connection connect(String host) {
+        return new Connection( FlyFactory.makeFly(host) );              
     }
     
 }

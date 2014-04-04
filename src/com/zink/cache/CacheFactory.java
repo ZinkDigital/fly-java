@@ -1,6 +1,7 @@
 package com.zink.cache;
 
-import com.zink.fly.kit.FlyFinder;
+import com.zink.fly.kit.FlyFactory;
+
 
 /**
 * The start point for gaining a connection to a Fly based message queue.
@@ -12,13 +13,11 @@ import com.zink.fly.kit.FlyFinder;
 public class CacheFactory {
 	
     public static Cache connect() {
-         FlyFinder finder = new FlyFinder();
-         return new Cache(finder.find());      
+         return new Cache(FlyFactory.makeFly());      
     }
 
     public static Cache connect(String host)  {
-        FlyFinder finder = new FlyFinder();
-        return new Cache(finder.find(host));              
+        return new Cache(FlyFactory.makeFly(host));              
     }
     
 }

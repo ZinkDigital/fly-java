@@ -59,7 +59,7 @@ public class FlyFinder  {
     
     
     /**
-     * Find any Fly instance on the local sub net and return a refernce to it
+     * Find any Fly instance on the local sub net and return a reference to it
      *
      * @return a reference to a Fly interface - null if none found
      */
@@ -116,7 +116,7 @@ public class FlyFinder  {
     
     
     /**
-     * Find a Fly instance on the local sub net that mathces the tags supplied 
+     * Find a Fly instance on the local sub net that matches the tags supplied 
      * in the array of tags supplied. All of the tags provided as a parameter 
      * must match those provided by the Fly instance. 
      * 

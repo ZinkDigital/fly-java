@@ -1,10 +1,7 @@
 package com.zink.fly.example;
 
 
-import com.zink.queue.Connection;
-import com.zink.queue.ConnectionFactory;
-import com.zink.queue.ReadChannel;
-import com.zink.queue.WriteChannel;
+import com.zink.queue.*;
 
 public class MessageShim {
 
