@@ -95,4 +95,15 @@ If you want to see the java source for the WriteTake example look in the src
 directory. There are many examples in here of how to use the server via the 
 java bindings.
 
-Now you are flying.
+
+### Proxies
+
+If you are using the FlyFinder class to discover the Fly Server certain proxy 
+configurations may cause problems with the discovery. It may help to set the 
+following configs in your java client before using the FlyFinder.
+
+```
+System.setProperty("socksProxyHost", "");
+System.setProperty("socksProxyPort", "");
+```
+
