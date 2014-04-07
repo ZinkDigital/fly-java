@@ -22,7 +22,7 @@ import com.zink.fly.example.WriteTake;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author nigel
  */
 public class ThreadsTest {
@@ -30,7 +30,7 @@ public class ThreadsTest {
     
      public ThreadsTest() { }
     
-   @Test
+   //@Test
     public  void testThreads() throws InterruptedException {
         
         Thread thrd1 = new Reader();
@@ -48,9 +48,7 @@ public class ThreadsTest {
     }
     
     
-    
    public class Taker extends Thread {
-       
        
        @Override
        public void run() {

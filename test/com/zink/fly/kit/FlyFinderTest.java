@@ -18,9 +18,13 @@
 package com.zink.fly.kit;
 
 import com.zink.fly.Fly;
+import com.zink.fly.FlyAccessException;
+
 import org.junit.After;
 import org.junit.AfterClass;
+
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -84,15 +88,14 @@ public class FlyFinderTest {
     /**
      * Test of findNearest method, of class FlyFinder.
      */
-    @Test
+    @Test(expected = FlyAccessException.class)
     public void testTagsNoMatch() {
         
         FlyFinder instance = new FlyFinder();
         
         // test for a fail
         Fly fly = instance.find(new String[] { "NadaFlySpace" } );
-        
-        assertNull("Matched bad tags", fly);
+ 
     }
     
 

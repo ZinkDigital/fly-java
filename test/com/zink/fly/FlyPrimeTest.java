@@ -136,7 +136,7 @@ public class FlyPrimeTest {
         TestEntry entry = createTestEntry(512);
         TestEntry template = createTestTemplate();
         
-        for (int i = 0; i < 12; i++ ) {
+        for (int i = 0; i < 6; i++ ) {
             entry.payload = entry.payload + entry.payload;
             System.out.println("Payload size is " + entry.payload.length());
             fly.write(entry, 1000L);
