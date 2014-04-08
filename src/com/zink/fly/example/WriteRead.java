@@ -19,7 +19,7 @@ package com.zink.fly.example;
 
 
 import com.zink.fly.Fly;
-import com.zink.fly.kit.FlyFinder;
+import com.zink.fly.kit.FlyFactory;
 
 /**
  *
@@ -31,17 +31,13 @@ public class WriteRead {
     public static void main(String[] args) {
 
         // parse for non default args
-        int iterations = 10000;
+        int iterations = 1000;
         if (args.length > 0) {
             iterations = Integer.parseInt(args[0]);
         }                 
                 
-        Fly fly = new FlyFinder().find();
-        if (fly == null) {
-            System.err.println("Failed to find a Fly Server running on the local network");
-            System.exit(1);
-        }
-
+        Fly fly = FlyFactory.makeFly();
+ 
         final int payloadSize = 100;
 
         // set up an object to write to the space

@@ -61,7 +61,7 @@ public class FlyFinder  {
     /**
      * Find any Fly instance on the local sub net and return a reference to it
      *
-     * @return a reference to a Fly interface - null if none found
+     * @return a reference to a Fly interface
      */
     public Fly find() {
         Fly fly = null;
