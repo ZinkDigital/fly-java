@@ -28,14 +28,14 @@ public interface FieldCodec {
     
     /**
      * Encode the given object into any byte array required
-     * @param field
+     * @param field the field to write
      * @return the encoded field as a byte array
      */
     public byte [] writeField(Object field);
   
     /**
      * Decode the byte array to create the object field
-     * @param fieldBytes
+     * @param fieldBytes the bytes to read
      * @return the object created from the byte array
      */
     public Object readField(byte [] fieldBytes);

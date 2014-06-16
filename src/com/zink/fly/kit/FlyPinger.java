@@ -62,10 +62,11 @@ public class FlyPinger {
      * Send a ping message to a Fly Space running on the given Address
      * prefer the method that takes an InetAddress. Name to address 
      * conversion can be very slow on some platforms
-     * @param host
-     * @return String [] of tags or null array for failed ping.
+     * @param host the host to ping
+     * @return String[] of tags or null array for failed ping.
+     * @throws java.net.UnknownHostException if the host cannont be found
      */   
-    public String [] ping(String host) throws UnknownHostException {
+    public String[] ping(String host) throws UnknownHostException {
         InetAddress addr = InetAddress.getByName(host);
         return ping(addr);
     }
@@ -75,10 +76,10 @@ public class FlyPinger {
     /**
      * Send a ping message to a Fly Space running on the given InetAddress and 
      * port.
-     * @param addr
-     * @return String [] of tags or null array for failed ping.
+     * @param addr the address to ping
+     * @return String[] of tags or null array for failed ping.
      */   
-    public String [] ping(InetAddress addr) {
+    public String[] ping(InetAddress addr) {
         String [] tags = null;
         Socket sock = null;
         try {

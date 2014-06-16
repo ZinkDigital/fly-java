@@ -80,7 +80,7 @@ public class FlyCache implements FlyRepHandler  {
     
     /**
      * Register a handler that wants to know if a fly instance has been started 
-     * @param handler
+     * @param handler the handler to register
      */
     public void registerDiscoveredHandler(FlyDiscoveredHandler handler) {
        discoveredHandlers.add(handler); 
@@ -88,7 +88,7 @@ public class FlyCache implements FlyRepHandler  {
     
     /**
      * No longer inerested in discoveries
-     * @param handler
+     * @param handler the handler to remove
      */
     public void removeDiscoveredHandler(FlyDiscoveredHandler handler) {
         discoveredHandlers.remove(handler);
@@ -96,7 +96,7 @@ public class FlyCache implements FlyRepHandler  {
     
     /**
      * Register a handler that wants to know if a fly instance has been stopped
-     * @param handler
+     * @param handler the lost handler to register
      */
     public void registerLostHandler(FlyLostHandler handler) {
        lostHandlers.add(handler); 
@@ -104,7 +104,7 @@ public class FlyCache implements FlyRepHandler  {
     
     /**
      * No longer inerested in removed events
-     * @param handler
+     * @param handler the lost handler to remove
      */
     public void removeLostHandler(FlyLostHandler handler) {
         lostHandlers.remove(handler);

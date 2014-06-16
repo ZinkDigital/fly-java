@@ -32,6 +32,7 @@ public interface NotifyHandlerReturningEntry extends Notifiable {
      * object.
      *
      * If you don't need the returned entry then use a plain NotifyHandler
+     * @param entry the object matching the template
      */
     void templateMatched(Object entry);
     

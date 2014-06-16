@@ -32,7 +32,11 @@ public interface NotiFly extends FlyPrime {
     
     /**
      * @deprecated 
-     * This method it will be removed at version 2.0
+     * This method will be removed at version 2.0
+     * @param template - the template to match to triger this notify
+     * @param handler - An object that implements the NotifyHandler interface 
+     * @param leaseTime - The time in milliseconds the template will live in the Space
+     * @return boolen - Setup ok
      */
     boolean notify(Object template, NotifyHandler handler, long leaseTime);	
 		

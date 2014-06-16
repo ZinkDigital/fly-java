@@ -51,7 +51,7 @@ public class FlyFinder  {
     /**
      * Use the supplied field codec to use non java serialized entries
      * 
-     * @param fieldCodec
+     * @param fieldCodec the field codec to use non java serialized entries
      */
     public FlyFinder(FieldCodec fieldCodec) {
         this.fieldCodec = fieldCodec;

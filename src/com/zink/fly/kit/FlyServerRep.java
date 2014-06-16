@@ -99,8 +99,8 @@ public class FlyServerRep {
      * Test if the tags in this server rep match the seach tags
      * 
      * 
-     * @param The tags are being search for by the user
-     * @return
+     * @param tags The tags are being search for by the user
+     * @return true if the tags match, false otherwise
      */
     public boolean tagsMatch(String[] tags) {
         // if the tags from the space are null it doenst exist
