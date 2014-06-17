@@ -2,7 +2,7 @@ organization := "com.flyobjectspace"
 
 name := "FlyJava"
 
-version := "2.0.3"
+version := "2.0.4-SNAPSHOT"
 
 javaSource in Compile := baseDirectory.value / "src"
 
