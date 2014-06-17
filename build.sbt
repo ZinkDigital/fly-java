@@ -2,7 +2,7 @@ organization := "com.flyobjectspace"
 
 name := "FlyJava"
 
-version := "2.0.3-SNAPSHOT"
+version := "2.0.3"
 
 javaSource in Compile := baseDirectory.value / "src"
 
@@ -19,6 +19,8 @@ publishMavenStyle := true
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false}
+
+autoScalaLibrary := false
 
 publishTo <<= version { v: String =>
       val nexus = "https://oss.sonatype.org/"
