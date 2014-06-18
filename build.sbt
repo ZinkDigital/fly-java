@@ -2,13 +2,15 @@ organization := "com.flyobjectspace"
 
 name := "FlyJava"
 
-version := "2.0.4-SNAPSHOT"
+version := "2.0.4"
 
 javaSource in Compile := baseDirectory.value / "src"
 
 javaSource in Test := baseDirectory.value / "test"
 
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
+javacOptions in (Compile, compile) ++= Seq("-source", "1.6", "-target", "1.6")
+
+javacOptions in (doc) ++= Seq("-source", "1.6")
 
 libraryDependencies ++= Seq("junit" % "junit" % "4.11" % "test")
 
