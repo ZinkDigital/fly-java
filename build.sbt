@@ -8,7 +8,7 @@ javaSource in Compile := baseDirectory.value / "src"
 
 javaSource in Test := baseDirectory.value / "test"
 
-javacOptions ++= Seq("-source", "1.6")
+javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
 libraryDependencies ++= Seq("junit" % "junit" % "4.11" % "test")
 
